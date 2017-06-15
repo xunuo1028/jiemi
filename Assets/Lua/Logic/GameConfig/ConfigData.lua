@@ -13,18 +13,72 @@ end
 function ConfigData:InitData()
 	-- body
 	self.password_UnlockMainPanel = 0000
+	self.currentMicroMessageIndex = 0
 end
+
+function ConfigData:SetDataToLocal()
+	-- body
+	
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function ConfigData:MicroMessage()
 	-- body
 	self.mm1 = {
-		{"父亲", "我没你这儿子，没用的东西，因为你生不出孩子，我们刘家要断后"}
-		{"我", "我又什么办法？！你想要孙子可我现在也没辙啊"}
+		{"父亲", "我没你这儿子，没用的东西，因为你生不出孩子，我们刘家要断后"},
+		{"我", "我又什么办法？！你想要孙子可我现在也没辙啊"},
 	}
+	
 
 	self.mm2 = {
-		{"赵", "孩子到手了，我后天给你送过去"}
-		{"我", "谢了赵哥"}
-		{"赵", "怎么说也是帮兄弟，帮个忙理所当然"}
+		{"赵", "孩子到手了，我后天给你送过去"},
+		{"我", "谢了赵哥"},
+		{"赵", "怎么说也是帮兄弟，帮个忙理所当然"},
 	}
 end

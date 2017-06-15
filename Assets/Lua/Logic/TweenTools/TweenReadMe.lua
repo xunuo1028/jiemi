@@ -15,7 +15,7 @@ type = 1：       *        type = 2：                                  *       
 
 
 可能需要设置的地方：
-1.需在CustomSettings.cs中加入_GT(typeof(AnimationCurve))及_GT(typeof(Keyframe))，然后重新wrap生成文件
+1.需在CustomSettings.cs中加入_GT(typeof(AnimationCurve))及_GT(typeof(Keyframe))，然后重新wrap生成文件 (若没有用到AnimationCurve，可以不执行该操作)
 
 
 
@@ -69,11 +69,34 @@ Math.Repeat
 *****************
 * 2017.5.31改动 *
 *****************
+
 1.为UITweenPosition中添加一个worldSpace的选项，用于选择position和localPosition
+
 
 *****************
 * 2017.6.5改动  *
 *****************
+
 1.在CustomSetting.cs中添加_GT(typeof(TextEditor))，用以将制定文本复制到剪切板上
+
+
+*****************
+* 2017.6.14改动 *
+*****************
+
+1.UITweenLoader中添加EaseGenerate方法，用于快速生成Tween方法，参数顺序为
+	参数名称				类型
+	mTrans 			--- 	Transform
+	from 			---		Vector3
+	to 				--- 	Vector3
+	delay   		--- 	number
+	duration 		--- 	number
+	style 			--- 	string
+	method 			--- 	string	
+	onFinishDo  	--- 	table    注：table内部的结构请参考30行，onTweenFinishDo的说明
+	tweenType   	---     string
+	isWorldSpace	--- 	bool     注：该字段为UITweenPosition单独使用，用于区分position、localPosition
+
+请严格按照该顺序填入参数，其中mTrans，to为必须填写的参数，其余参数可以为空，填nil，默认值请参考22行 “ 关于需要设置的属性 ” 的说明
 
 ]]

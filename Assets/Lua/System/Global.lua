@@ -36,6 +36,7 @@ Light			= UnityEngine.Light
 RenderSettings  = UnityEngine.RenderSettings
 MeshRenderer	= UnityEngine.MeshRenderer
 TouchPhase 		= UnityEngine.TouchPhase
+PlayerPrefs = UnityEngine.PlayerPrefs
 
 function class(classname, supername, supermodule)  
     _G[classname] = {}
@@ -60,4 +61,9 @@ end
 
 function IsNil(uobj)
 	return uobj == nil or uobj:Equals(nil)
+end
+
+function Base64Encode(str)
+  -- body
+
 end

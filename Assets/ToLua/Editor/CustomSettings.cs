@@ -195,6 +195,7 @@ public static class CustomSettings
         _GT(typeof(Space)), 
         _GT(typeof(Keyframe)),
         _GT(typeof(Quaternion)),
+        _GT(typeof(PlayerPrefs)),
        
 
         _GT(typeof(MeshRenderer)),            

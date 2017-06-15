@@ -14,7 +14,7 @@ function GameManager:Awake(this)
   --self.this.gameObject:AddComponent(NTGLuaScript.GetType("NTGLuaScript")):Load("Logic.UTGData.UTGDataOperator")
   GameManager.Instance = self
   if GameManager.PanelRoot ~= nil then
-    --GameManager.CreatePanelAsync("M000_Bg", "M000", true)
+    GameManager.CreatePanelAsync("M000_Bg", "M000", true)
     --GameManager.CreatePanel("Login", nil)
     --GameManager.CreatePanel("UpdateResource", nil)
     --GameManager.CreatePanel("Promote", nil)

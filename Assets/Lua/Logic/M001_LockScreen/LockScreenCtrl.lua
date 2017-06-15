@@ -1,5 +1,6 @@
 require "System.Global"
 require "Logic.Tool.UITools"
+require "Logic.TweenTools.UITweenLoader"
 
 class("LockScreenCtrl")
 
@@ -37,11 +38,19 @@ function LockScreenCtrl:Awake(this)
 	listener = EventTriggerProxy.Get(self.unLockButton.gameObject)
 	local callback_unLock = function(self, e)
 		if self.actionPanel.position.y < 3 then
-			self.actionPanel.position = oPos
-			self.passwordPanel.position = passwordPos
+
+			local tweener = UITweenLoader.New()
+			tweener:EaseGenerate(self.actionPanel, nil, oPos, 0, 0.3, nil, nil, nil, "UITweenPosition", true)
+
+			local tweener1 = UITweenLoader.New()
+			tweener1:EaseGenerate(self.passwordPanel, nil, passwordPos, 0, 0.3, nil, nil, nil, "UITweenPosition", true)
 		else
-			self.actionPanel.position = Vector3.New(oPos.x, 9.4, oPos.z)				--12这个定值之后要改成计算得出的值
-			self.passwordPanel.position = oPos
+
+			local tweener = UITweenLoader.New()
+			tweener:EaseGenerate(self.actionPanel, nil, Vector3.New(oPos.x, 9.4, oPos.z), 0, 0.3, nil, nil, nil, "UITweenPosition", true)
+
+			local tweener1 = UITweenLoader.New()
+			tweener1:EaseGenerate(self.passwordPanel, nil, oPos, 0, 0.3, nil, nil, nil, "UITweenPosition", true)
 			self:PressNum()
 		end
 	end
@@ -51,6 +60,10 @@ end
 
 function LockScreenCtrl:Start()
 	-- body
+	local tbl = {one = "one", two = "two", three = "three", four = "four"}
+	for k, v in pairs(tbl) do
+		print(k .. " " .. v)
+	end
 end
 
 function LockScreenCtrl:DoUnlock(trans, dis, posy, oPos)
@@ -64,7 +77,6 @@ function LockScreenCtrl:DoUnlock(trans, dis, posy, oPos)
 	self.passwordPanel.position = Vector3.New(self.passwordPanel.position.x,
 										posy + oPos, 
 										self.passwordPanel.position.z)
-	print(posy + oPos .. " " .. self.passwordPanel.position.y)
 end
 
 function LockScreenCtrl:PressNum()
@@ -82,7 +94,6 @@ function LockScreenCtrl:PressNum()
 		listener = EventTriggerProxy.Get(numTrans:GetChild(i - 1).gameObject)
 			local callback_unLock = function(self, e)
 				table.insert(self.password, numTrans:GetChild(i - 1).name)
-				print("sdfsdfsdf " .. #self.password)
 				blockTrans:GetChild(#self.password - 1):Find("Full").gameObject:SetActive(true)
 				if #self.password == 4 then
 					self:CheckPassword(self.password)

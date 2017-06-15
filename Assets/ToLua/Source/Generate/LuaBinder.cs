@@ -79,6 +79,7 @@ public static class LuaBinder
 		UnityEngine_SkinnedMeshRendererWrap.Register(L);
 		UnityEngine_SpaceWrap.Register(L);
 		UnityEngine_KeyframeWrap.Register(L);
+		UnityEngine_PlayerPrefsWrap.Register(L);
 		UnityEngine_AnimationCurveWrap.Register(L);
 		UnityEngine_AnimationBlendModeWrap.Register(L);
 		UnityEngine_QueueModeWrap.Register(L);
