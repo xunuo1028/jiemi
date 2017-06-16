@@ -3,6 +3,7 @@
 
 require "Logic.PanelNum"
 require "Logic.Tool.UITools"
+require "Logic.Tool.UILocalDataOperator"
 
 class("GameManager")
 
@@ -20,6 +21,13 @@ function GameManager:Awake(this)
     --GameManager.CreatePanel("Promote", nil)
     --GameManager.CreatePanel("Matching") 
   end
+end
+
+function GameManager:Start()
+  -- body
+  self.panelLoadDic = {}
+  self.preloadList = {}
+  --self:InitLocalRecord()
 end
 
 function GameManager:Init()
@@ -190,4 +198,79 @@ end
 
 
 
+
+--**************************记录面板加载次数
+function GameManager:InitLocalRecord()
+  -- body
+  self.panelLoadDic = UILocalDataOperator.GetTable("PanelLoad")
+end
+
+function GameManager:DoPanelRecord(panelName)
+  -- body
+  if self.panelLoadDic[panelName] ~= nil then
+    self.panelLoadDic[panelName] = self.panelLoadDic[panelName] + 1
+  else
+    self.panelLoadDic[panelName] = 1
+  end
+end
+
+function GameManager:SavePanelRecordToLocal()
+  -- body
+  UILocalDataOperator.SetTable("PanelLoad", self.panelLoadDic)
+end
+
+function GameManager:PanelRecordAction()
+  -- body
+  self.preloadList = {}
+  local preLoadTemp = {}
+  local tbl = {}
+  for k, v in pairs(self.panelLoadDic) do
+    if v >= 15 then
+      tbl = {panelName = k, totalLoadedNum = v}
+      table.insert(preLoadTemp, tbl)
+    end
+  end
+
+  if #preLoadTemp > 3 then
+    table.sort(preLoadTemp, function(a, b)
+      -- body
+      return a.totalLoadedNum > b.totalLoadedNum
+    end)
+    table.insert(self.preloadList, preLoadTemp[1])
+    table.insert(self.preloadList, preLoadTemp[2])
+    table.insert(self.preloadList, preLoadTemp[3])
+
+    return self.preloadList
+  elseif #preLoadTemp > 0 and #preLoadTemp <= 3 then
+    self.preloadList = preLoadTemp
+    return self.preloadList
+  else
+    return
+  end
+end
+
+function GameManager:ActionForecast(resType, fLevel)
+  -- body
+  if ConfigData.Instance().currentStatus == 1 then
+    --预加载战斗界面
+    self:PanelRecordAction()
+    if #self.preloadList == 0 then
+      --加载战斗界面1
+      --加载英雄列表
+      --加载商店1
+    else
+      for i, v in ipairs(self.preloadList) do
+        --依次加载列表中的界面
+      end
+    end
+  elseif ConfigData.Instance().currentStatus == 2 then
+    local tbl = UILocalDataOperator.GetTable("MainPath")
+    if tbl ~= nil then
+      --卸载self.preloadList中的面板，此处指从内存中清理掉
+      --加载tbl中存在的面板
+    else
+      --加载默认的MainPath面板
+    end
+  end
+end
 

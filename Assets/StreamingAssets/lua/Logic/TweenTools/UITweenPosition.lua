@@ -14,6 +14,13 @@ function UITweenPosition:Init(tbl, uiTweener)
 		local isVector3_to = (type(tbl.to) ~= "table" or UITools.GetPairsLength(tbl.to) < 3 or UITools.CheckTableType(tbl.to, "num"))
 		assert(isVector3_to == false, "param 'To' is not a Vector3 value")		
 
+		--5.31添加worldSpace选项
+		if tbl.worldSpace then
+			self.worldSpace = tbl.worldSpace
+		else
+			self.worldSpace = false
+		end
+
 		self.to = tbl.to
 		self.mTrans = tbl.mTrans
 
@@ -22,7 +29,11 @@ function UITweenPosition:Init(tbl, uiTweener)
 		if tbl.from then
 			self.from = tbl.from
 		else
-			self.from = self.mTrans.transform.localPosition
+			if self.worldSpace == true then
+				self.from = self.mTrans.transform.position
+			elseif self.worldSpace == false then
+				self.from = self.mTrans.transform.localPosition
+			end
 		end
 
 		if tbl.ignoreTimeScale then
@@ -77,13 +88,6 @@ function UITweenPosition:Init(tbl, uiTweener)
 			self.onTweenFinishDo = tbl.onTweenFinishDo		--onTweenFinishDo为一个table，保存{Function, FunctionSelf}
 		else
 			self.onTweenFinishDo = {}
-		end
-
-		--5.31添加worldSpace选项
-		if tbl.worldSpace then
-			self.worldSpace = tbl.worldSpace
-		else
-			self.worldSpace = false
 		end
 	end
 end

@@ -32,7 +32,6 @@ public class UIToolsTree : EditorWindow
     static void Init()
     {
         UIToolsTree window = (UIToolsTree)EditorWindow.GetWindow(typeof(UIToolsTree));
-        window.maxSize = new Vector2(600, 800);
         window.Show();
     }
 
@@ -404,6 +403,7 @@ public class UIToolsTree : EditorWindow
                 }
 
                 str.Append(temp);
+                
             }
         }
 

@@ -133,7 +133,6 @@ function UITweenPosition:OnUpdate(val, isFinished)
 	-- body
 	local value = self.from * (1 - val) + self.to * val
 	--value = value - self.mTrans.localPosition
-	print("sdfsdf " .. tostring(self.worldSpace))
 	if self.worldSpace then
 		self.mTrans.position = value
 	else

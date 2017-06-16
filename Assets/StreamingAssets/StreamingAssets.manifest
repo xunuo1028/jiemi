@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2490095351
+CRC: 2821344334
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,17 +9,17 @@ AssetBundleManifest:
       Name: m001_test.assetbundle
       Dependencies: {}
     Info_2:
-      Name: uitweentools.assetbundle
+      Name: m001_lockscreen.assetbundle
       Dependencies: {}
     Info_3:
-      Name: m003_test2.assetbundle
+      Name: uitweentools.assetbundle
       Dependencies: {}
     Info_4:
-      Name: m002_test1.assetbundle
+      Name: m003_test2.assetbundle
       Dependencies: {}
     Info_5:
-      Name: m000_bg.assetbundle
+      Name: m002_test1.assetbundle
       Dependencies: {}
     Info_6:
-      Name: m001_lockscreen.assetbundle
+      Name: m000_bg.assetbundle
       Dependencies: {}

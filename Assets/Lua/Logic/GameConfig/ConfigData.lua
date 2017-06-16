@@ -14,6 +14,11 @@ function ConfigData:InitData()
 	-- body
 	self.password_UnlockMainPanel = 0000
 	self.currentMicroMessageIndex = 0
+	self.depthestPanelList = {
+		"M003_TestPanel"
+	}
+	self.lastAction = ""
+	self.currentStatus = 1      --0:Idle	1:NewLogin or ReLogin	2:LoadMainPath	3:LoadHeroAbout		4:LoadModel		5:LoadShopAbout	
 end
 
 function ConfigData:SetDataToLocal()

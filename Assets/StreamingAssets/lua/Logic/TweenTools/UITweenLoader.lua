@@ -257,6 +257,27 @@ function UITweenLoader:ResetToBeginning()
 	mFactor = self.amountPerDelta(self.duration) < 0 and 1 or 0
 	UITweenLoader.Sample(mFactor, false)
 end
+
+function UITweenLoader:EaseGenerate(mTrans, from, to, delay, duration, style, method, onFinishDo, tweenType, worldSpace)
+	-- body
+	local tbl = {
+		mTrans = mTrans,
+		from = from,
+		to = to, 
+		delay = delay, 
+		duration = duration, 
+		style = style,
+		duration = duration,
+		onTweenFinishDo = {},
+		worldSpace = worldSpace,
+	}
+
+	if onFinishDo ~= nil then
+		table.insert(tbl.onTweenFinishDo, onFinishDo)
+	end
+
+	self:Init(tbl, tweenType)
+end
  
 function UITweenLoader:UnLoad(tweener)
 	-- body

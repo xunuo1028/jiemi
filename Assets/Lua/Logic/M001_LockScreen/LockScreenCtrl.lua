@@ -61,9 +61,6 @@ end
 function LockScreenCtrl:Start()
 	-- body
 	local tbl = {one = "one", two = "two", three = "three", four = "four"}
-	for k, v in pairs(tbl) do
-		print(k .. " " .. v)
-	end
 end
 
 function LockScreenCtrl:DoUnlock(trans, dis, posy, oPos)
@@ -112,7 +109,6 @@ function LockScreenCtrl:CheckPassword(tbl)
 	password = tonumber(password)
 	if password == ConfigData.Instance().password_UnlockMainPanel then
 		--ShowMainPanel
-		print("Correct!!!!!!!!!!!!!")
 	else
 		--Shock
 		coroutine.start(self.ScreenShock, self)
