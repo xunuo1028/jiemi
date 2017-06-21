@@ -196,7 +196,8 @@ public static class CustomSettings
         _GT(typeof(Keyframe)),
         _GT(typeof(Quaternion)),
         _GT(typeof(PlayerPrefs)),
-       
+        _GT(typeof(UnityEngine.Events.UnityEvent)),
+
 
         _GT(typeof(MeshRenderer)),            
         _GT(typeof(ParticleEmitter)),

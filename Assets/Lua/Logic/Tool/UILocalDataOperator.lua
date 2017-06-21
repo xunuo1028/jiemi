@@ -1,5 +1,6 @@
 require "System.Global"
 require "Logic.Tool.UITools"
+require "Logic.GameConfig.ConfigData"
 
 class("UILocalDataOperator")
 
@@ -12,6 +13,7 @@ UILocalDataOperator.SetNumber = function(key, data)
 
 	local str = tostring(data)
 	PlayerPrefs.SetString(key, data)
+	table.insert(ConfigData.Instance().localDataList, {Key = key, Type = "number"})
 	return "Save Successfully"
 end
 
@@ -40,6 +42,7 @@ UILocalDataOperator.SetString = function(key, data)
 	end
 
 	PlayerPrefs.SetString(key, data)
+	table.insert(ConfigData.Instance().localDataList, {Key = key, Type = "string"})
 	return "Save Successfully"	
 end
 
@@ -67,6 +70,7 @@ UILocalDataOperator.SetBool = function(key, data)
 	end
 
 	PlayerPrefs.SetBool(key, data)
+	table.insert(ConfigData.Instance().localDataList, {Key = key, Type = "bool"})
 	return "Save Successfully"	
 end
 
@@ -100,6 +104,7 @@ UILocalDataOperator.SetTable = function(key, data)
 		PlayerPrefs.SetString(key .. "_key_" .. count, tostring(k))
 		PlayerPrefs.SetString(key .. "_value_" .. type(v) .. "_" .. count, tostring(v))
 	end
+	table.insert(ConfigData.Instance().localDataList, {Key = key, Type = "table"})
 	return "Save Successfully"	
 end
 

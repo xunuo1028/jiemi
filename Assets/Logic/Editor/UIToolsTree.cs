@@ -8,11 +8,11 @@ public class UIToolsTree : EditorWindow
 
     Object st;
     public static Transform obj;
-    private int level = 0;
     private static Dictionary<string, List<Transform>> dic_trans = new Dictionary<string, List<Transform>>();
     private static Dictionary<string, List<bool>> dic_bool = new Dictionary<string, List<bool>>();
     private static Dictionary<string, bool> dic_forFoldout = new Dictionary<string, bool>();
     private static Dictionary<string, int> dic_level = new Dictionary<string, int>();
+    private static Dictionary<string, int> repeat_log = new Dictionary<string, int>();
     private bool isFirstGenerate = false;
     private bool select_All = false;
     private Vector2 scroll;
@@ -51,7 +51,34 @@ public class UIToolsTree : EditorWindow
         #region BeginVertical
         EditorGUILayout.BeginVertical(GUILayout.MaxHeight(1000f));
         EditorGUILayout.LabelField("Please chose an UIPanel (For generate Component Code)", EditorStyles.boldLabel);
+        #region BeginHorizontal
+        EditorGUILayout.BeginHorizontal();
         obj = EditorGUILayout.ObjectField(obj, typeof(Transform), true) as Transform;
+        if(GUILayout.Button("Serialize"))
+        {
+            if (obj.GetChild(0).name != "Controller" && obj.name != "Controller")
+            {
+                Debug.LogError(string.Format("Selected GameObject {0} is not root or Controller", obj.name));
+            }
+            else
+            {
+                repeat_log.Clear();
+                DoSerializeForSelectPanel(obj);
+                #region report
+                Debug.Log("Serialize Report Start !");
+                foreach (var v in repeat_log)
+                {
+                    if (v.Value > 0)
+                    {
+                        Debug.Log(string.Format("Son Node named {0}, repeat {1} time", v.Key, v.Value));
+                    } 
+                }
+                Debug.Log("Serialize Report End !");
+                #endregion
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+        #endregion
         EditorGUILayout.LabelField("");
 
         GUI.Label(new Rect(10, 42, 100, 20), "Tree");
@@ -243,6 +270,7 @@ public class UIToolsTree : EditorWindow
             dic_bool.Clear();
             dic_level.Clear();
             dic_forFoldout.Clear();
+            repeat_log.Clear();
             GetChild(obj, obj);
         }
 
@@ -348,11 +376,14 @@ public class UIToolsTree : EditorWindow
             List<Transform> sonNode = new List<Transform>();
             for (int i = 0; i <= trans.childCount - 1; i++)
             {
-                sonNode.Add(trans.GetChild(i));
+
                 List<bool> bool_node = new List<bool>();
                 bool_node.Add(false);
                 dic_bool.Add(trans.GetChild(i).name, bool_node);
                 dic_level.Add(trans.GetChild(i).name, GetDepth(trans.GetChild(i), rootTrans, 0));
+
+                sonNode.Add(trans.GetChild(i));
+
                 if (trans.GetChild(i).childCount > 0)
                 {
                     GetChild(trans.GetChild(i), rootTrans);
@@ -361,10 +392,12 @@ public class UIToolsTree : EditorWindow
 
             if (dic_trans.ContainsKey(trans.name))
             {
-                Debug.LogError(string.Format("The name : \"{0}\" is already have, please make a different name", trans.name));
+                Debug.LogError(string.Format("The name : \"{0}\" is already have, please make a different name or run Serialize", trans.name));
             }
-
-            dic_trans.Add(trans.name, sonNode);
+            else
+            {
+                dic_trans.Add(trans.name, sonNode);
+            } 
         }
     }
 
@@ -436,6 +469,30 @@ public class UIToolsTree : EditorWindow
         return str.ToString();
     }
 
+    private void DoSerializeForSelectPanel(Transform trans)
+    {
+        if (obj == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i <= trans.childCount - 1; i++)
+        {
+            DoSerializeForSelectPanel(trans.GetChild(i));
+        }
+
+        if (repeat_log.ContainsKey(trans.name))
+        {
+            repeat_log[trans.name] += 1;
+            trans.name = trans.name + "_" + repeat_log[trans.name];
+        }
+        else
+        {
+            repeat_log.Add(trans.name, 0);
+        }
+
+    }
+
 
     #region 工具的工具
     private string GetFirstLowerStr(string str)
@@ -501,10 +558,10 @@ public class UIToolsTree : EditorWindow
             return root;
         }
 
-        if(temp.Length == 0)
-        {
+        //if(temp.Length == 0)
+        //{
 
-        }
+        //}
 
         return null;
     }

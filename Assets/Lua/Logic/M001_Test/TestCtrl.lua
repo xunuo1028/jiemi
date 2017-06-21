@@ -10,6 +10,7 @@ function TestCtrl:Awake(this)
 	self.this = this
 	self.testButton = self.this.transform:Find("Button")
 	self.test1Button = self.this.transform:Find("Button1")
+	self.scroll = self.this.transform:Find("Scroll")
 	self.newTweener = nil
 end
 
@@ -46,6 +47,7 @@ function TestCtrl:Start()
 	end
 	listener.onPointerClick = EventTriggerProxy.PointerEventDelegate(callback1, self)		
 
+	self:ScrollTest()
 end
 
 function TestCtrl:Test(num)
@@ -76,6 +78,30 @@ function TestCtrl:TestTweenPause(tweener)
 	coroutine.wait(1)
 	tweener.Pause = false
 
+end
+
+function TestCtrl:ScrollTest()
+	-- body
+	local s = UITools.GetLuaScript("UIScrollTools", self.scroll)
+	s.self:Init(true, 28, 4)
+	for i = 1, 28 do
+		local itemTbl = s.self:DoScroll(nil, i)
+		--[[
+		local listener
+		listener = EventTriggerProxy.Get(itemTbl.trans.gameObject)
+		local callback1 = function(self, e)
+			print("abcabcabca " .. itemTbl.trans.name)
+		end
+		listener.onPointerClick = EventTriggerProxy.PointerEventDelegate(callback1, self)	
+		]]
+		itemTbl.Text.text.text = i
+		s.self:OnClickEvent(itemTbl.trans:GetComponent("Button"), self.ClickTest, self, itemTbl.trans.name)	
+	end
+end
+
+function TestCtrl:ClickTest(str)
+	-- body
+	print("Click Test " .. str)
 end
 
 function TestCtrl:OnDestroy()

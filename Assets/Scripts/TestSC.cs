@@ -4,15 +4,21 @@ using UnityEngine.UI;
 
 public class TestSC : MonoBehaviour {
 
-    public Animator abc;
+    public RectTransform abc;
+    public Transform bcd;
 
 	// Use this for initialization
 	void Start () {
-        abc.Play("Shock");
+
 	}   
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
+    public void Test()
+    {
+        Debug.Log("Test" + UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
+    }
 }
