@@ -99,6 +99,11 @@ function TestCtrl:ScrollTest()
 	end
 end
 
+function TestCtrl:ScrollEvent(trans, id)
+	-- body
+	trans:Find("Text"):GetComponent("Text").text = "Click" .. id
+end
+
 function TestCtrl:ClickTest(str)
 	-- body
 	print("Click Test " .. str)
