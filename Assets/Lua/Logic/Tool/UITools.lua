@@ -207,3 +207,105 @@ UITools.SwapTableByIndex = function(tbl, index1, index2)
 
 	return tbl
 end
+
+UITools.PointerClick = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onPointerClick = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.PointerDown = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onPointerDown = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.PointerUp = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onPointerUp = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.BeginDrag = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onBeginDrag = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.EndDrag = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onEndDrag = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.Drag = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onDrag = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
