@@ -7,7 +7,8 @@ function UIScrollTools:Awake(this)
 	self.this = this
 	self.scroll = self.this.transforms[0]
 	self.grid = self.scroll:Find("Content/Grid")
-	self.scrollBar = self.scroll:Find("ScrollBar")
+	self.vScrollBar = self.scroll:Find("VerticalScrollBar")
+	self.hScrollBar = self.scroll:Find("HorizontalScrollBar")
 	self.sample = self.scroll:Find("Sample")
 	if self.sample.childCount > 0 then
 		self.item = self.sample:GetChild(0)
@@ -79,56 +80,107 @@ function UIScrollTools:Init(isVertical, rc, toTop, toBottom, toLeft, toRight, sp
 
 
 		local trans = {}
+		local isFinish = true
+		local count = 0
+
+		local function DoMoreItems()
+			-- body
+			local cal = math.floor(math.floor(self.grid.localPosition.y - self.beginPosY) / math.floor(height + spaceY / 2))
+			trans = {}
+
+			print(cal)
+			local function DoDown()
+				-- body
+				--print(cal .. " " .. self.current)
+				if isFinish and rc * (self.current + self.containRaw + 1) < self.max then
+					isFinish = false
+					--print("11111111111111111")
+					for i = 0, rc - 1 do
+						table.insert(trans, self.grid:GetChild(i))
+					end
+					for i = 1, #trans do
+						trans[i]:SetAsLastSibling()
+						if self.currentIndexLow == self.max then
+							break
+						end
+						self.currentIndexLow = self.currentIndexLow + 1
+						--print(#trans .. " " .. self.currentIndexLow)
+						self.doItemShowFunc(self.doItemShowFuncSelf, trans[i], self.itemDataList[self.currentIndexLow], self.currentIndexLow)
+					end
+					self.currentIndexHigh = self.currentIndexHigh + rc
+					self.grid:GetComponent("GridLayoutGroup").padding.top = self.grid:GetComponent("GridLayoutGroup").padding.top + height + spaceY
+					self.grid:GetComponent("GridLayoutGroup").padding.bottom = self.grid:GetComponent("GridLayoutGroup").padding.bottom - height - spaceY
+					self.current = cal
+					isFinish = true
+				end
+			end
+
+			local function DoUp()
+				-- body
+				
+				if isFinish then
+					isFinish = false
+					--print("22222222222222222")
+					for i = 1, rc do
+						table.insert(trans, self.grid:GetChild(self.grid.childCount - i))
+					end
+					for i = 1, #trans do
+						trans[i]:SetAsFirstSibling()
+						self.currentIndexHigh = self.currentIndexHigh - 1
+						self.doItemShowFunc(self.doItemShowFuncSelf, trans[i], self.itemDataList[self.currentIndexHigh], self.currentIndexHigh)
+					end
+					self.currentIndexLow = self.currentIndexLow - rc
+					self.grid:GetComponent("GridLayoutGroup").padding.top = self.grid:GetComponent("GridLayoutGroup").padding.top - height - spaceY
+					self.grid:GetComponent("GridLayoutGroup").padding.bottom = self.grid:GetComponent("GridLayoutGroup").padding.bottom + height + spaceY
+					self.current = cal
+					isFinish = true
+				end					
+			end
+
+			if cal > self.current then
+				for i = self.current + 1, cal do
+					count = count + 1
+					--print(count .. " a")
+					DoDown()
+				end
+			elseif cal < self.current and cal >= 0 then
+				for i = cal + 1, self.current do
+					DoUp()
+				end
+			end			
+		end
+
 		local listener
 		listener = EventTriggerProxy.Get(self.scroll.gameObject)
 		local callback_drag = function(self, e)
-			local cal = math.floor(math.floor(self.grid.localPosition.y - self.beginPosY) / math.floor(height + spaceY / 2))
-			trans = {}
-			if cal > self.current and rc * self.current < maxNum then
-				for i = 0, 3 do
-					table.insert(trans, self.grid:GetChild(i))
-				end
-				for i = 1, #trans do
-					trans[i]:SetAsLastSibling()
-					self.currentIndexLow = self.currentIndexLow + 1
-					self.doItemShowFunc(self.doItemShowFuncSelf, trans, self.itemDataList[self.currentIndexLow])
-				end
-				self.grid:GetComponent("GridLayoutGroup").padding.top = self.grid:GetComponent("GridLayoutGroup").padding.top + height + spaceY
-				self.current = cal
-
-			elseif cal < self.current and cal > 0 then
-				for i = 1, 4 do
-					table.insert(trans, self.grid:GetChild(i-1))
-				end
-				for i = 1, #trans do
-					trans[i]:SetAsFirstSibling()
-				end
-				self.grid:GetComponent("GridLayoutGroup").padding.top = self.grid:GetComponent("GridLayoutGroup").padding.top - height - spaceY
-				self.current = cal				
-			end
+			DoMoreItems()
 		end
 		listener.onDrag = EventTriggerProxy.PointerEventDelegate(callback_drag, self)
 
+		local scroll_Component = self.vScrollBar:GetComponent("Scrollbar")
+		local action = UnityEngine.Events.UnityAction_float(DoMoreItems, self)
+		scroll_Component.onValueChanged:AddListener(action)
 	end
 end
 
 function UIScrollTools:DoScroll(idTbl)
 	-- body
 	self.itemDataList = idTbl
+	self.max = #idTbl
 	local go
 	for i = 1, #idTbl do
-		if i < self.firstLoad then
+		if i <= self.firstLoad then
 			go = GameObject.Instantiate(self.item.gameObject).transform
-			go.name = self.item.name .. index
 			go:SetParent(self.grid)
 			go.localPosition = Vector3.zero
 			go.localScale = Vector3.one
 			local transTemp = go
 
-			self.doItemShowFunc(self.doItemShowFuncSelf, transTemp, idTbl[i])
+			self.doItemShowFunc(self.doItemShowFuncSelf, transTemp, idTbl[i], i)
+			self.currentIndexLow = i
 		end
 	end
-	self.currentIndexLow = (self.containRaw - 1) * self.column + 1
+	self.currentIndexHigh = 1
 --[[
 	local tbl = {}
 	tbl.trans = go
@@ -159,15 +211,21 @@ function UIScrollTools:DoScroll(idTbl)
 	end	
 ]]
 
-	
-
-
+	local height = self.item:GetComponent("RectTransform").rect.height
+	local spaceY = self.grid:GetComponent("GridLayoutGroup").spacing.y
+	local leftRawNum = 0
+	if math.floor(#idTbl / self.column) == (#idTbl / self.column) then
+		leftRawNum = #idTbl / self.column - self.containRaw - 1
+	else
+		leftRawNum = math.floor(#idTbl / self.column) - self.containRaw
+	end
+	self.grid:GetComponent("GridLayoutGroup").padding.bottom = self.grid:GetComponent("GridLayoutGroup").padding.bottom + (height + spaceY)*leftRawNum
 	self.beginPosY = self.grid.localPosition.y
 
 	return tbl
 end
 
-function UIScrollTool:DoItemShow(func, funcSelf, clickFunc, clickFuncSelf)
+function UIScrollTools:DoItemShow(func, funcSelf)
 	-- body
 	self.doItemShowFunc = func
 	self.doItemShowFuncSelf = funcSelf
