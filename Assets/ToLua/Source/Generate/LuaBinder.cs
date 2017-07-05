@@ -106,12 +106,23 @@ public static class LuaBinder
 		UnityEngine_UI_HorizontalLayoutGroupWrap.Register(L);
 		UnityEngine_UI_GraphicRaycasterWrap.Register(L);
 		UnityEngine_UI_ButtonWrap.Register(L);
+		UnityEngine_UI_ContentSizeFitterWrap.Register(L);
 		UnityEngine_UI_MaskableGraphicWrap.Register(L);
 		UnityEngine_UI_GraphicWrap.Register(L);
 		UnityEngine_UI_SelectableWrap.Register(L);
 		UnityEngine_UI_HorizontalOrVerticalLayoutGroupWrap.Register(L);
 		L.BeginModule("Dropdown");
 		UnityEngine_UI_Dropdown_OptionDataWrap.Register(L);
+		L.EndModule();
+		L.BeginModule("Scrollbar");
+		UnityEngine_UI_Scrollbar_ScrollEventWrap.Register(L);
+		UnityEngine_UI_Scrollbar_DirectionWrap.Register(L);
+		L.EndModule();
+		L.BeginModule("GridLayoutGroup");
+		UnityEngine_UI_GridLayoutGroup_AxisWrap.Register(L);
+		L.EndModule();
+		L.BeginModule("ContentSizeFitter");
+		UnityEngine_UI_ContentSizeFitter_FitModeWrap.Register(L);
 		L.EndModule();
 		L.BeginModule("InputField");
 		L.RegFunction("OnValidateInput", UnityEngine_UI_InputField_OnValidateInput);
@@ -138,8 +149,11 @@ public static class LuaBinder
 		L.EndModule();
 		L.BeginModule("Events");
 		UnityEngine_Events_UnityEventWrap.Register(L);
+		UnityEngine_Events_UnityEvent_floatWrap.Register(L);
 		UnityEngine_Events_UnityEventBaseWrap.Register(L);
 		L.RegFunction("UnityAction", UnityEngine_Events_UnityAction);
+		L.RegFunction("UnityAction_float", UnityEngine_Events_UnityAction_float);
+		L.RegFunction("UnityAction_bool", UnityEngine_Events_UnityAction_bool);
 		L.RegFunction("UnityAction_UnityEngine_SceneManagement_Scene_UnityEngine_SceneManagement_LoadSceneMode", UnityEngine_Events_UnityAction_UnityEngine_SceneManagement_Scene_UnityEngine_SceneManagement_LoadSceneMode);
 		L.RegFunction("UnityAction_UnityEngine_SceneManagement_Scene", UnityEngine_Events_UnityAction_UnityEngine_SceneManagement_Scene);
 		L.RegFunction("UnityAction_UnityEngine_SceneManagement_Scene_UnityEngine_SceneManagement_Scene", UnityEngine_Events_UnityAction_UnityEngine_SceneManagement_Scene_UnityEngine_SceneManagement_Scene);
@@ -343,6 +357,60 @@ public static class LuaBinder
 			{
 				LuaTable self = ToLua.CheckLuaTable(L, 2);
 				Delegate arg1 = DelegateFactory.CreateDelegate(typeof(UnityEngine.Events.UnityAction), func, self);
+				ToLua.Push(L, arg1);
+			}
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int UnityEngine_Events_UnityAction_float(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+
+			if (count == 1)
+			{
+				Delegate arg1 = DelegateFactory.CreateDelegate(typeof(UnityEngine.Events.UnityAction<float>), func);
+				ToLua.Push(L, arg1);
+			}
+			else
+			{
+				LuaTable self = ToLua.CheckLuaTable(L, 2);
+				Delegate arg1 = DelegateFactory.CreateDelegate(typeof(UnityEngine.Events.UnityAction<float>), func, self);
+				ToLua.Push(L, arg1);
+			}
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int UnityEngine_Events_UnityAction_bool(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+
+			if (count == 1)
+			{
+				Delegate arg1 = DelegateFactory.CreateDelegate(typeof(UnityEngine.Events.UnityAction<bool>), func);
+				ToLua.Push(L, arg1);
+			}
+			else
+			{
+				LuaTable self = ToLua.CheckLuaTable(L, 2);
+				Delegate arg1 = DelegateFactory.CreateDelegate(typeof(UnityEngine.Events.UnityAction<bool>), func, self);
 				ToLua.Push(L, arg1);
 			}
 			return 1;

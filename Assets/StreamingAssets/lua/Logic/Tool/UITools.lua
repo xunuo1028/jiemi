@@ -30,7 +30,9 @@ UITools.GetLuaScript = function(luaName, obj)
 	-- body
 	local scriptsTbl = obj.transform.gameObject:GetComponents(LuaScript.GetType("LuaScript"))
 	for i = 1, scriptsTbl.Length do
-		if scriptsTbl[i-1].luaScript == luaName then
+		local strTbl = UITools.StringSplit(scriptsTbl[i-1].luaScript, ".")
+		local scriptName = strTbl[#strTbl]
+		if scriptName == luaName then
 			return scriptsTbl[i-1]
 		end
 	end
@@ -116,3 +118,195 @@ UITools.GetUIPosition = function(clickPos, parentObj)
 
 	return v_v3
 end
+
+UITools.GetTableIndex = function(tbl, element)
+	-- body
+	if #tbl == 0 then
+		error("Your table is nil or a dictionary")
+		return nil
+	end
+
+	for i = 1, #tbl do
+		if tbl[i] == element then
+			return i
+		end
+	end
+
+	error("The element is not present in the table")
+	return -1
+end
+
+UITools.SwapTable = function(tbl, element1, element2)
+	-- body
+	if #tbl == 0 then
+		error("Your table is nil or a dictionary")
+		return nil
+	end
+
+	local haveElement1 = false
+	local haveElement2 = false
+
+	for i = 1, #tbl do
+		if tbl[i] == element1 then
+			tbl[i] = element2
+			haveElement1 = true
+		elseif tbl[i] == element2 then
+			tbl[i] = element1
+			haveElement2 = true
+		end
+	end
+
+	if haveElement1 == false then
+		error("Table does'n contain element1")
+		return nil
+	end
+
+	if haveElement2 == false then
+		error("Table does'n contain element2")
+		return nil
+	end
+
+	return tbl	
+end
+
+UITools.SwapTableByIndex = function(tbl, index1, index2)
+	-- body
+	if #tbl == 0 then
+		error("Your table is nil or a dictionary")
+		return nil
+	end
+
+	if #tbl < index1 then
+		error("Table length is smaller than index1")
+		return nil
+	end
+
+	if #tbl < index2 then
+		error("Table length is smaller than index2")
+		return nil
+	end
+
+	local temp
+	for i = 1, #tbl do
+		if i == index1 then
+			if temp == nil then
+				temp = tbl[i]
+				tbl[i] = tbl[index2]
+			else
+				tbl[i] = temp
+			end
+		elseif i == index2 then
+			if temp == nil then
+				temp = tbl[i]
+				table[i] = tbl[index1]
+			else
+				tbl[i] = temp
+			end
+		end
+	end
+
+	return tbl
+end
+
+UITools.PointerClick = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onPointerClick = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.PointerDown = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onPointerDown = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.PointerUp = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onPointerUp = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.BeginDrag = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onBeginDrag = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.EndDrag = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onEndDrag = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+
+UITools.Drag = function(targetObj, funcTable, funcSelfTable, paramTbl)
+	-- body
+	local listener
+	listener = EventTriggerProxy.Get(targetObj.gameObject)
+		local callback = function(self, e)
+			if type(funcTable) == "table" and type(funcSelfTable) == "table" and #funcTable == #funcSelfTable then
+				local funcNum = #funcTable
+				for i = 1, funcNum do
+					funcTable[i](funcSelfTable[i], unpack(paramTbl[i]))
+				end
+			elseif type(funcTable) == "function" then
+				funcTable(funcSelfTable, unpack(paramTbl))
+			end
+		end
+	listener.onDrag = EventTriggerProxy.PointerEventDelegate(callback, self)
+end
+

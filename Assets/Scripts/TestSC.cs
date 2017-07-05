@@ -4,13 +4,19 @@ using UnityEngine.UI;
 
 public class TestSC : MonoBehaviour {
 
-    public Button abc;
+    public ScrollRect abc;
     public Transform bcd;
+    public ContentSizeFitter sss;
+    public Scrollbar ddd;
+    public GridLayoutGroup asd;
+    public Canvas fff;
 
 	// Use this for initialization
 	void Start () {
-        abc.onClick.RemoveAllListeners();
-	}   
+        abc.vertical = false;
+        sss.horizontalFit = ContentSizeFitter.FitMode.MinSize;
+        asd.startAxis = GridLayoutGroup.Axis.Horizontal;
+    }   
 	
 	// Update is called once per frame
 	void Update () {

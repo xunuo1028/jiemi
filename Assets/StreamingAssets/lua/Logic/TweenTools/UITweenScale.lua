@@ -102,27 +102,25 @@ function UITweenScale:SetAnimationCurve(type)
 	return curve
 end
 
-function UITweenScale:Begin(worldSpace)
+function UITweenScale:Begin()
 	-- body
 	local comp = {}
-	if worldSpace then
-		comp.ignoreTimeScale = self.ignoreTimeScale
-		comp.delay = self.delay
-		comp.duration = self.duration
-		comp.onTweenFinishDo = self.onTweenFinishDo
-		comp.style = self.style
-		comp.method = self.method
-		comp.steeperCurves = self.steeperCurves
-		comp.useFixedUpdate = self.useFixedUpdate
-		comp.animationCurve = AnimationCurve.New(KeyFrame.New(self.animationCurve[1][1], self.animationCurve[1][2], self.animationCurve[1][3], self.animationCurve[1][4]),
-											KeyFrame.New(self.animationCurve[2][1], self.animationCurve[2][2], self.animationCurve[2][3], self.animationCurve[2][4]))
-		--self.uiTweener:DoUpdate(comp)
-	
-		table.insert(self.uiTweener.OnUpdate, self.OnUpdate)
-		table.insert(self.uiTweener.OnUpdate, self)
+	comp.ignoreTimeScale = self.ignoreTimeScale
+	comp.delay = self.delay
+	comp.duration = self.duration
+	comp.onTweenFinishDo = self.onTweenFinishDo
+	comp.style = self.style
+	comp.method = self.method
+	comp.steeperCurves = self.steeperCurves
+	comp.useFixedUpdate = self.useFixedUpdate
+	comp.animationCurve = AnimationCurve.New(KeyFrame.New(self.animationCurve[1][1], self.animationCurve[1][2], self.animationCurve[1][3], self.animationCurve[1][4]),
+										KeyFrame.New(self.animationCurve[2][1], self.animationCurve[2][2], self.animationCurve[2][3], self.animationCurve[2][4]))
+	--self.uiTweener:DoUpdate(comp)
 
-		self.uiTweener:DoUpdate(comp)
-	end
+	table.insert(self.uiTweener.OnUpdate, self.OnUpdate)
+	table.insert(self.uiTweener.OnUpdate, self)
+
+	self.uiTweener:DoUpdate(comp)
 	return comp
 end
 

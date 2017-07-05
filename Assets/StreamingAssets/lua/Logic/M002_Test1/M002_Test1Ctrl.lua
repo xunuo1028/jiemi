@@ -7,7 +7,7 @@ function M002_Test1Ctrl:Awake(this)
 	-- body
 	self.this = this
 	self.testButton = self.this.transforms[0]
-
+--[[
 	local str = 
 		"\nself.newTweener = UITweenLoader.New()" .. "\n" .. 
 		string.format("local tbl = {\n" .. 
@@ -29,7 +29,7 @@ function M002_Test1Ctrl:Awake(this)
 	copyText.text = str
 	copyText:SelectAll()
 	copyText:Copy()
-
+]]
 
 
 

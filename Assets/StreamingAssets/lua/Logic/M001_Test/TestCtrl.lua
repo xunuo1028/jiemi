@@ -10,7 +10,13 @@ function TestCtrl:Awake(this)
 	self.this = this
 	self.testButton = self.this.transform:Find("Button")
 	self.test1Button = self.this.transform:Find("Button1")
+	self.scroll = self.this.transform:Find("Scroll")
+	self.input = self.this.transform:Find("InputField")
 	self.newTweener = nil
+	self.exampleList = {}
+	for i = 1, 50 do
+		table.insert(self.exampleList, i)
+	end
 end
 
 function TestCtrl:Start()
@@ -40,12 +46,22 @@ function TestCtrl:Start()
 	end
 	listener.onPointerClick = EventTriggerProxy.PointerEventDelegate(callback, self)
 
+	listener = EventTriggerProxy.Get(self.input:Find("Button").gameObject)
+	local callbackRemove = function(self, e)
+		local node = tonumber(self.input:GetComponent("InputField").text)
+		local s = UITools.GetLuaScript("UIScrollTools", self.scroll)
+		s.self:RemoveNode(node)
+	end
+	listener.onPointerClick = EventTriggerProxy.PointerEventDelegate(callbackRemove, self)
+
 	listener = EventTriggerProxy.Get(self.test1Button.gameObject)
 	local callback1 = function(self, e)
-		print("abcabcabca " .. e.clickCount)
+		local s = UITools.GetLuaScript("UIScrollTools", self.scroll)
+		s.self:AddNode(1, 0.5)
 	end
-	listener.onPointerClick = EventTriggerProxy.PointerEventDelegate(callback1, self)		
+	listener.onPointerClick = EventTriggerProxy.PointerEventDelegate(callback1, self)			
 
+	self:ScrollTest()
 end
 
 function TestCtrl:Test(num)
@@ -76,6 +92,30 @@ function TestCtrl:TestTweenPause(tweener)
 	coroutine.wait(1)
 	tweener.Pause = false
 
+end
+
+function TestCtrl:ScrollTest()
+	-- body
+	local s = UITools.GetLuaScript("UIScrollTools", self.scroll)
+	s.self:Init(false, 5)
+	local function DoEveryItem(luaSelf, trans, id, idx)
+		-- body
+		trans:Find("Text"):GetComponent("Text").text = id
+		trans:Find("Text"):GetComponent("Text").fontSize = 20
+		trans.name = id .. "_" .. idx
+		local function DoClickEvent(luaSelf, str)
+			-- body
+			print("Click Test " .. str .. " " .. self.scroll.name)
+		end
+		s.self:OnClickEvent(trans:GetComponent("Button"), DoClickEvent, self, trans.name)
+	end
+	s.self:DoItemShow(DoEveryItem, self)
+	s.self:DoScroll(false, self.exampleList)
+end
+
+function TestCtrl:ClickTest(str)
+	-- body
+	print("Click Test " .. str)
 end
 
 function TestCtrl:OnDestroy()

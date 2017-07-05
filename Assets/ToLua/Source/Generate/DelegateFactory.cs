@@ -19,6 +19,8 @@ public static class DelegateFactory
 		dict.Clear();
 		dict.Add(typeof(System.Action), System_Action);
 		dict.Add(typeof(UnityEngine.Events.UnityAction), UnityEngine_Events_UnityAction);
+		dict.Add(typeof(UnityEngine.Events.UnityAction<float>), UnityEngine_Events_UnityAction_float);
+		dict.Add(typeof(UnityEngine.Events.UnityAction<bool>), UnityEngine_Events_UnityAction_bool);
 		dict.Add(typeof(System.Predicate<int>), System_Predicate_int);
 		dict.Add(typeof(System.Action<int>), System_Action_int);
 		dict.Add(typeof(System.Comparison<int>), System_Comparison_int);
@@ -232,6 +234,100 @@ public static class DelegateFactory
 		{
 			UnityEngine_Events_UnityAction_Event target = new UnityEngine_Events_UnityAction_Event(func, self);
 			UnityEngine.Events.UnityAction d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	class UnityEngine_Events_UnityAction_float_Event : LuaDelegate
+	{
+		public UnityEngine_Events_UnityAction_float_Event(LuaFunction func) : base(func) { }
+		public UnityEngine_Events_UnityAction_float_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(float param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(float param0)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UnityEngine_Events_UnityAction_float(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			UnityEngine.Events.UnityAction<float> fn = delegate(float param0) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			UnityEngine_Events_UnityAction_float_Event target = new UnityEngine_Events_UnityAction_float_Event(func);
+			UnityEngine.Events.UnityAction<float> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			UnityEngine_Events_UnityAction_float_Event target = new UnityEngine_Events_UnityAction_float_Event(func, self);
+			UnityEngine.Events.UnityAction<float> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	class UnityEngine_Events_UnityAction_bool_Event : LuaDelegate
+	{
+		public UnityEngine_Events_UnityAction_bool_Event(LuaFunction func) : base(func) { }
+		public UnityEngine_Events_UnityAction_bool_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(bool param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(bool param0)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UnityEngine_Events_UnityAction_bool(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			UnityEngine.Events.UnityAction<bool> fn = delegate(bool param0) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			UnityEngine_Events_UnityAction_bool_Event target = new UnityEngine_Events_UnityAction_bool_Event(func);
+			UnityEngine.Events.UnityAction<bool> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			UnityEngine_Events_UnityAction_bool_Event target = new UnityEngine_Events_UnityAction_bool_Event(func, self);
+			UnityEngine.Events.UnityAction<bool> d = target.CallWithSelf;
 			target.method = d.Method;
 			return d;
 		}

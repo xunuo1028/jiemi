@@ -309,3 +309,4 @@ UITools.Drag = function(targetObj, funcTable, funcSelfTable, paramTbl)
 		end
 	listener.onDrag = EventTriggerProxy.PointerEventDelegate(callback, self)
 end
+

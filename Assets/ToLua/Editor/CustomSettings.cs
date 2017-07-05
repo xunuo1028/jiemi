@@ -36,10 +36,12 @@ public static class CustomSettings
     };
 
     //附加导出委托类型(在导出委托时, customTypeList 中牵扯的委托类型都会导出， 无需写在这里)
-    public static DelegateType[] customDelegateList = 
-    {        
-        _DT(typeof(Action)),                
+    public static DelegateType[] customDelegateList =
+    {
+        _DT(typeof(Action)),
         _DT(typeof(UnityEngine.Events.UnityAction)),
+        _DT(typeof(UnityEngine.Events.UnityAction<float>)),
+        _DT(typeof(UnityEngine.Events.UnityAction<Boolean>)),
         _DT(typeof(System.Predicate<int>)),
         _DT(typeof(System.Action<int>)),
         _DT(typeof(System.Comparison<int>)),
@@ -58,8 +60,8 @@ public static class CustomSettings
         //_GT(typeof(TestExport.Space)),
         //-------------------------------------------------------------------        
                 
-        _GT(typeof(Debugger)).SetNameSpace(null),        
-        
+        _GT(typeof(Debugger)).SetNameSpace(null),
+
         _GT(typeof(System.IO.Directory)),
         _GT(typeof(System.IO.File)),
 
@@ -77,6 +79,7 @@ public static class CustomSettings
         _GT(typeof (Shadow)),
         _GT(typeof (ScrollRect)),
         _GT(typeof (Scrollbar)),
+        _GT(typeof (Scrollbar.ScrollEvent)),
         _GT(typeof (LayoutGroup)),
         _GT(typeof (LayoutElement)),
         _GT(typeof (Canvas)),
@@ -88,22 +91,26 @@ public static class CustomSettings
         _GT(typeof (EventTrigger)),
         _GT(typeof (AbstractEventData)),
         _GT(typeof (BaseRaycaster)),
-        _GT(typeof (ParticleSystemRenderer)),        
+        _GT(typeof (ParticleSystemRenderer)),
         _GT(typeof (TrailRenderer)),
-        _GT(typeof (DirectorPlayer)),          
-        _GT(typeof (BaseMeshEffect)),       
-        _GT(typeof (RectTransform)),      
-        _GT(typeof (Text)),      
-        _GT(typeof (SceneManager)),      
-        _GT(typeof (LoadSceneMode)),      
-        _GT(typeof (RuntimePlatform)),   
-        _GT(typeof (EventSystem)),   
+        _GT(typeof (DirectorPlayer)),
+        _GT(typeof (BaseMeshEffect)),
+        _GT(typeof (RectTransform)),
+        _GT(typeof (Text)),
+        _GT(typeof (SceneManager)),
+        _GT(typeof (LoadSceneMode)),
+        _GT(typeof (RuntimePlatform)),
+        _GT(typeof (EventSystem)),
 
-        _GT(typeof (GridLayoutGroup)),   
-        _GT(typeof (HorizontalLayoutGroup)),   
-        _GT(typeof (GraphicRaycaster)),   
-        _GT(typeof (RectOffset)),   
-        _GT(typeof (Button)),   
+        _GT(typeof (GridLayoutGroup)),
+        _GT(typeof (GridLayoutGroup.Axis)),
+        _GT(typeof (HorizontalLayoutGroup)),
+        _GT(typeof (GraphicRaycaster)),
+        _GT(typeof (RectOffset)),
+        _GT(typeof (Button)),
+        _GT(typeof (ContentSizeFitter)),
+        _GT(typeof (ContentSizeFitter.FitMode)),
+        _GT(typeof (Scrollbar.Direction)),
 
         //custom           
         _GT(typeof (LuaScript)),
