@@ -310,3 +310,15 @@ UITools.Drag = function(targetObj, funcTable, funcSelfTable, paramTbl)
 	listener.onDrag = EventTriggerProxy.PointerEventDelegate(callback, self)
 end
 
+UITools.SwapBool = function(boolValue)
+	-- body
+	local result = boolValue
+	if result == true then
+		result = false
+	else
+		result = true
+	end
+
+	return result
+end
+

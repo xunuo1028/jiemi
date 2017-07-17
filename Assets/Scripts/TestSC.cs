@@ -16,6 +16,7 @@ public class TestSC : MonoBehaviour {
         abc.vertical = false;
         sss.horizontalFit = ContentSizeFitter.FitMode.MinSize;
         asd.startAxis = GridLayoutGroup.Axis.Horizontal;
+        Handheld.Vibrate();
     }   
 	
 	// Update is called once per frame
