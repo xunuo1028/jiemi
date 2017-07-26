@@ -22,7 +22,7 @@
         {
             base.OnEnable();
 
-            _isSupported = Profiler.GetMonoUsedSize() > 0;
+            _isSupported = UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong() > 0;
             NotSupportedMessage.SetActive(!_isSupported);
             CurrentUsedText.gameObject.SetActive(_isSupported);
 
@@ -42,8 +42,8 @@
 
         public void TriggerRefresh()
         {
-            var max = _isSupported ? UnityEngine.Profiler.GetMonoHeapSize() : GC.GetTotalMemory(false);
-            var current = UnityEngine.Profiler.GetMonoUsedSize();
+            var max = _isSupported ? UnityEngine.Profiling.Profiler.GetMonoHeapSize() : GC.GetTotalMemory(false);
+            var current = UnityEngine.Profiling.Profiler.GetMonoUsedSize();
 
             Slider.maxValue = max;
             Slider.value = current;

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "NTG/Battle/Role" {   
     Properties {   
         _MainTex ("MainTexture (RGB)", 2D) = "white" {} 
@@ -26,7 +28,7 @@ Shader "NTG/Battle/Role" {
 		v2f vert(appdata_tan v)   
 		{   
 			v2f o;   
-			o.pos = mul (UNITY_MATRIX_MVP, v.vertex);  
+			o.pos = UnityObjectToClipPos (v.vertex);  
 			o.uv = v.texcoord; 
 			return o;    
 		} 

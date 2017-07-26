@@ -112,6 +112,7 @@ function LockScreenCtrl:CheckPassword(tbl)
 	else
 		--Shock
 		coroutine.start(self.ScreenShock, self)
+		self.password = {}
 	end
 
 end

@@ -110,7 +110,7 @@ function TestCtrl:ScrollTest()
 		s.self:OnClickEvent(trans:GetComponent("Button"), DoClickEvent, self, trans.name)
 	end
 	s.self:DoItemShow(DoEveryItem, self)
-	s.self:DoScroll(false, self.exampleList)
+	s.self:DoScroll(self.exampleList)
 end
 
 function TestCtrl:ClickTest(str)

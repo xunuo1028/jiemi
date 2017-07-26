@@ -20,6 +20,7 @@ function ConfigData:InitData()
 	}
 	self.lastAction = ""
 	self.currentStatus = 1      --0:Idle	1:NewLogin or ReLogin	2:LoadMainStream  	3:LoadHeroAbout		4:LoadShopAbout	
+	self.languages = {"中文", "日文", "英文"}
 end
 
 function ConfigData:SetDataToLocal()

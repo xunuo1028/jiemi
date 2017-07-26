@@ -32,7 +32,21 @@ public class ApplicationController : MonoBehaviour
 {
     public static Type GetType(string TypeName)
     {
-        var type = Types.GetType(TypeName, "Assembly-CSharp");
+        Type type;
+
+        if (TypeName == "LuaScript")
+        {
+            type = typeof(LuaScript);
+        }
+        else if(TypeName == "RectTransform" || TypeName == "UnityEngine.RectTransform")
+        {
+            type = typeof(RectTransform);
+        }
+        else
+        {
+            type = null;
+        }
+
         if (type != null)
             return type;
 
@@ -40,7 +54,7 @@ public class ApplicationController : MonoBehaviour
         while (assemblyName.LastIndexOf('.') != -1)
         {
             assemblyName = assemblyName.Substring(0, assemblyName.LastIndexOf('.'));
-            type = Types.GetType(TypeName, assemblyName);
+            //type = Types.GetType(TypeName, assemblyName);
             if (type != null)
                 return type;
         }

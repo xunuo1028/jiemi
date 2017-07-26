@@ -15,8 +15,8 @@ function GameManager:Awake(this)
   --self.this.gameObject:AddComponent(NTGLuaScript.GetType("NTGLuaScript")):Load("Logic.UTGData.UTGDataOperator")
   GameManager.Instance = self
   if GameManager.PanelRoot ~= nil then
-    --GameManager.CreatePanelAsync("M000_Bg", "M000", true)
-    GameManager.CreatePanel("M002_Test1", nil)
+    GameManager.CreatePanelAsync("M000_Bg", "M000", true)
+    --GameManager.CreatePanel("M002_Test1", nil)
     --GameManager.CreatePanel("UpdateResource", nil)
     --GameManager.CreatePanel("Promote", nil)
     --GameManager.CreatePanel("Matching") 
@@ -52,7 +52,7 @@ function GameManager.CreatePanel(name)
   
   local go
   --print("assetName " .. assetName) 
-  if GameManager.PanelRoot:FindChild(assetName) == nil and prefab ~= nil then
+  if GameManager.PanelRoot:Find(assetName) == nil and prefab ~= nil then
     go = GameObject.Instantiate(prefab)
     go.name = assetName
     go.transform:SetParent(GameManager.PanelRoot)
@@ -62,7 +62,7 @@ function GameManager.CreatePanel(name)
     go:SetActive(true)
     --NTGResourceController.Instance:UnloadAssetBundle(name, false);
   end
-  if GameManager.PanelRoot:FindChild(assetName) ~= nil then go = GameManager.PanelRoot:FindChild(assetName) end
+  if GameManager.PanelRoot:Find(assetName) ~= nil then go = GameManager.PanelRoot:Find(assetName) end
   return go.transform
 end
 
@@ -160,7 +160,7 @@ function GameManager:doCreatePanelAsync(name, result, parentName, needScript)
   assetLoader = nil
 
   local go
-  if GameManager.PanelRoot:FindChild(parentName .. "/" .. assetName) == nil and prefab ~= nil then
+  if GameManager.PanelRoot:Find(parentName .. "/" .. assetName) == nil and prefab ~= nil then
     go = GameObject.Instantiate(prefab)
     go.name = assetName
     if parentPanel then 

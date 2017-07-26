@@ -1,4 +1,6 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
 Shader "Unlit/TestVFLight"
@@ -49,7 +51,7 @@ Shader "Unlit/TestVFLight"
 			v2f vert (a2v v)
 			{
 				v2f o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex); // transform the vertex to projection space
+				o.pos = UnityObjectToClipPos(v.vertex); // transform the vertex to projection space
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex); // get the UV coordinates
 				o.worldNormal = mul(SCALED_NORMAL, (float3x3)unity_WorldToObject); // normal
 				o.lightDir = mul((float3x3)unity_ObjectToWorld, ObjSpaceLightDir(v.vertex)); // light direction
